@@ -24,6 +24,7 @@ class ListaCircular : public ListaLigada<T>{
         friend std::ostream& operator<< <T>( std::ostream&, ListaLigada<T> const &l); */
 };
 
+
 template <typename T>
 ListaCircular<T>::ListaCircular(){}
 
@@ -32,6 +33,7 @@ ListaCircular<T>::~ListaCircular(){}
 
 template <typename T>
 bool ListaCircular<T>::InsereNoInicio( T valor ){
+    int teste;
     auto novo = make_shared<Node<T>>( valor );
     if( !novo ) return false;
 
