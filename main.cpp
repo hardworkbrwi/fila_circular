@@ -5,7 +5,9 @@
 
 int main(){
     ListaCircular<int> lista1;
-    cout << lista1.size();
+    lista1.InsereNoInicio(10);
+    cout << lista1.size() << endl;
+    cout << lista1 << endl;
 
     return 0;
 }

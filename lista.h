@@ -1,3 +1,6 @@
+#ifndef LISTA_H
+#define LISTA_H
+
 #include <iostream>
 #include <memory>
 
@@ -78,7 +81,7 @@ std::ostream& operator<<( std::ostream&, ListaLigada<T> const & );
 
 template <typename T>
 class ListaLigada {
-private:
+protected:
 	shared_ptr<Node<T>> cabeca;
 	shared_ptr<Node<T>> cauda;
 	int tamanho;
@@ -217,3 +220,5 @@ std::ostream& operator<< ( std::ostream& o, ListaLigada<T> const &l) {
 	}
 return o;
 }
+
+#endif

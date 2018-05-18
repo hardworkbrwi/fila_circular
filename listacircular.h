@@ -2,11 +2,11 @@
 #define LISTACIRCULAR_H
 
 #include "lista.h"
-/* 
+
 template <typename T> class ListaCircular; // Declaracao antecipada da classe
 template <typename T> // Definicao antecipada do template para o operador de insercao
 std::ostream& operator<<( std::ostream&, ListaCircular<T> const & );
- */
+
 template <typename T>
 class ListaCircular : public ListaLigada<T>{
     public:
@@ -20,8 +20,8 @@ class ListaCircular : public ListaLigada<T>{
         bool RemoveNaPosicao(int pos);
 
         int size();
-
-        friend std::ostream& operator<< <T>( std::ostream&, ListaLigada<T> const &l); */
+        */
+        friend std::ostream& operator<< <T>( std::ostream&, ListaCircular<T> const &l);
 };
 
 
@@ -33,7 +33,6 @@ ListaCircular<T>::~ListaCircular(){}
 
 template <typename T>
 bool ListaCircular<T>::InsereNoInicio( T valor ){
-    int teste;
     auto novo = make_shared<Node<T>>( valor );
     if( !novo ) return false;
 
@@ -46,8 +45,20 @@ bool ListaCircular<T>::InsereNoInicio( T valor ){
         aux->setNext( novo );
     }
     this->cabeca = novo;
+    this->tamanho++;
 
     return true;
+}
+
+template <typename T>
+std::ostream& operator<< ( std::ostream& o, ListaCircular<T> const &l ) {
+	auto atual = l.cabeca;
+	while (atual != l.cauda) {
+		o << atual->getValor() << " ";
+		atual = atual->getNext();
+	}
+    
+    return o;
 }
 
 
