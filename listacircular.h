@@ -13,14 +13,10 @@ class ListaCircular : public ListaLigada<T>{
         ListaCircular();
         ~ListaCircular();
         bool InsereNoInicio(T _valor);
-        /*bool InsereNoFinal(T _valor);
-        bool InsereNaPosicao(int pos, T _valor);
-        bool RemoveNoInicio();
-        bool RemoveNoFinal();
-        bool RemoveNaPosicao(int pos);
-
-        int size();
-        */
+        bool InsereNoFinal(T _valor);
+        //bool RemoveNoInicio();
+        //bool RemoveNoFinal();
+        
         friend std::ostream& operator<< <T>( std::ostream&, ListaCircular<T> const &l);
 };
 
@@ -41,8 +37,7 @@ bool ListaCircular<T>::InsereNoInicio( T valor ){
         this->cauda = novo;
     }else{
         novo->setNext( this->cabeca );
-        auto aux = this->cauda->getNext();
-        aux->setNext( novo );
+        this->cauda->setNext( novo );
     }
     this->cabeca = novo;
     this->tamanho++;
@@ -51,12 +46,29 @@ bool ListaCircular<T>::InsereNoInicio( T valor ){
 }
 
 template <typename T>
+bool ListaCircular<T>::InsereNoFinal(T valor){
+    if( this->tamanho == 0 ){
+        InsereNoInicio( valor );
+        return true;
+    }
+
+    auto novo = make_shared<Node<T>>( valor );
+    this->cauda->setNext( novo );
+    this->cauda = novo;
+    novo->setNext( this->cabeca );
+    this->tamanho++;
+
+    return true;
+}
+
+template <typename T>
 std::ostream& operator<< ( std::ostream& o, ListaCircular<T> const &l ) {
 	auto atual = l.cabeca;
-	while (atual != l.cauda) {
-		o << atual->getValor() << " ";
+
+    for( int i = 0; i < l.tamanho; i++ ){
+        o << atual->getValor() << " ";
 		atual = atual->getNext();
-	}
+    }
     
     return o;
 }
