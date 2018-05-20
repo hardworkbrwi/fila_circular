@@ -266,27 +266,37 @@ bool ListaLigada<T>::InsereNoFinal(T _valor) {
 		// Tamanho da lista é incrementado em 1
 		this->tamanho++;
 	}
-	
+
 	return true;
 }
 
 template <typename T>
 bool ListaLigada<T>::InsereNaPosicao(int pos, T _valor) {
-	if (pos<0) return false;
+	// Verica se a posição selecionada encontra-se no intervalo
+	if (pos<0) return false; // Deve ser adicionado condição maior que o tamanho da lista
+	// Se a posição for a primeira chama InserirNoInicio passando _valor
 	if (pos==0)	return InsereNoInicio(_valor);
 
+	// Guarda posição atual da lista definida na cabeca
 	auto atual = this->cabeca;
 	int posAtual = 0;
+
+	// Percorre a lista a fim de encontrar a posição selecionada no intervalor entre cabeca e cauda
 	while (atual->getNext() != this->cauda && posAtual < pos-1) {
+		// Guarda a posição de memória da posição selecionada
 		atual = atual->getNext();
 		posAtual++;
 	}
 	
 	auto novo = make_shared<Node<T>>(_valor);
+	// Verica se o nó foi alocado em memória
 	if (!novo) return false;
 
+	// Novo nó aponta para seu valor da sequencia baseado na posição de memória a qual ira ficar
 	novo->setNext(atual->getNext());
+	// A posição atual aponta para o novo nó
 	atual->setNext(novo);
+	// O tamanho da lista é incrementado em 1
 	this->tamanho++;
 	
 	return true;
@@ -294,26 +304,41 @@ bool ListaLigada<T>::InsereNaPosicao(int pos, T _valor) {
 
 template <typename T>
 bool ListaLigada<T>::RemoveNoInicio() {
+	// Verifica se a lista está vazia
 	if (this->cabeca==nullptr) return false;
+	// cabeca aponta para a próxima posição de memória
 	cabeca = cabeca->getNext();
+	// tamanho da lista é decrementado em 1
 	this->tamanho--;
+
 	return true;
 }
 
 template <typename T>
 bool ListaLigada<T>::RemoveNoFinal() {
+	// Verifica se a lista está vazia
 	if (this->cabeca==nullptr) return false;
 
+	// Verifica se tem apenas um valor na lista
+	/* Verifica se a primeira posição da lista, apontado por cabeca,
+	aponta para nullptr (cauda) */
 	if (this->cabeca->getNext()==this->cauda) {
+		// cabeca aponta para cauda (nullptr)
 		this->cabeca = this->cauda;
+		// tamanho da lista é decrementado em 1
 		this->tamanho--;
+
 		return true;
 	}
 
+	// Guarda posição de memória apontada por cabeca (primeira posição da lista)
 	auto atual = this->cabeca;
+	// Percorre a lista a fim de encontrar o final
 	while (atual->getNext()->getNext() != this->cauda)
 		atual = atual->getNext();
+	// Define o apontador da última posição da lista para nullptr
 	atual->setNext(this->cauda);
+	// tamanho da lista é decrementado em 1
 	this->tamanho--;
 
 	return true;
@@ -321,17 +346,24 @@ bool ListaLigada<T>::RemoveNoFinal() {
 
 template <typename T>
 bool ListaLigada<T>::RemoveNaPosicao(int pos) {
+	// Verica se a posição selecionada encontra-se no intervalo
 	if (pos<0) return false;
+	// Se a posição for a primeira chama RemoverNoInicio
 	if (pos==0)	return RemoveNoInicio();
 
+	// Guarda posição atual da lista definida na cabeca
 	auto atual = this->cabeca;
 	int posAtual = 0;
 	while (atual->getNext()->getNext() != this->cauda && posAtual < (pos-1)) {
+		// Guarda a posição de memória da posição selecionada
 		atual = atual->getNext();
 		posAtual++;
 	}
 
+	// atual passa a apontar para atual+2 posições de memória
+	// ou seja, apontará para o próximo de seu sucessor atual
 	atual->setNext(atual->getNext()->getNext());
+	// O tamanho da lista é incrementado em 1
 	this->tamanho--;
 
 	return true;
@@ -349,7 +381,8 @@ std::ostream& operator<< ( std::ostream& o, ListaLigada<T> const &l) {
 		o << atual->getValor() << " ";
 		atual = atual->getNext();
 	}
-return o;
+
+	return o;
 }
 
 #endif
