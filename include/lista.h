@@ -122,10 +122,16 @@ std::ostream& operator<< (std::ostream &o, Node<T> const &n) {
 	return o;
 }
 
-/* Implementacao da classe ListaLigada */
+/**
+ * @file	lista.h
+ * @brief	Implementação da classe ListaLigada em C++
+ * @author	Bruno César L. Silva
+ * @since	19/05/2018
+ * @date	20/05/2018
+ */
 
 /* Para permitir sobrecarregar o operador de insercao
-   numa classe template como friend eh preciso adicionar
+   numa classe template como friend é preciso adicionar
    o trecho de codigo a seguir */
 template <typename T> class ListaLigada; // Declaracao antecipada da classe
 template <typename T> // Definicao antecipada do template para o operador de insercao
