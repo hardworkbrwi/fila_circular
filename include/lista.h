@@ -1,3 +1,11 @@
+/**
+ * @file	lista.h
+ * @brief	Implementação da classe Node em C++
+ * @author	Bruno César L. Silva
+ * @since	19/05/2018
+ * @date	19/05/2018
+ */
+
 #ifndef LISTA_H
 #define LISTA_H
 
@@ -5,8 +13,6 @@
 #include <memory>
 
 using namespace std;
-
-/* Implementacao da classe Node */
 
 // Para permitir sobrecarregar o operador de insercao
 // numa classe template como friend eh preciso adicionar
@@ -16,35 +22,82 @@ template <typename T> // Definicao antecipada do template para o operador de ins
 std::ostream& operator<<( std::ostream&, Node<T> const & );
 // --
 
+/**
+* @brief Implementacao da classe Node
+* @detail Define os nós generalizando-os com templates
+*/
 template <typename T>
-class Node
-{
+class Node{
 private:
-	T valor;
-	shared_ptr<Node<T>> proximo;
+	T valor; /**< Valor para inserir no nó */
+	shared_ptr<Node<T>> proximo; /**< Apontador para a próxima posição */
 public:
+	/**
+	* @brief Método construtor padrão de Node
+	*/
 	Node();
+
+	/**
+	* @brief Método construtor parametrizado de Node
+	* @param T - valor do nó
+	*/  
 	Node(T _valor);
+
+	/**
+	* @brief Método destrutor de Node
+	*/
 	~Node();
+
+	/**
+	* @brief Método construtor parametrizado de Node
+	* @param T - valor do nó
+	* @param shared_ptr<Node> - ponteiro para a próxima posição
+	*/ 
 	Node(T num, shared_ptr<Node> nextPtr);
+
+	/**
+	* @brief Método get de valor
+	* @return Retorna o valor da posição
+	*/
 	T getValor();
+
+	/**
+	* @brief Método get de proximo
+	* @return Retorna a posiçao de memória do próximo nó
+	*/
 	shared_ptr<Node<T>> getNext();
+
+	/**
+	* @brief Método set de proximo
+	* @param shared_ptr<Node<T>> - define o a posição de memória do próximo nó
+	*/
 	void setNext(shared_ptr<Node<T>> nextPtr);
 
+	/**
+	* @brief Sobrecarga do operador de inserção.
+	* @detail imprime na saída padrão as informações de Node
+	* @param ostream &o operador de inserção
+	* @param Node<T> n uma instância de Node<T>
+	* @return retorna a instância do operador de inserção
+	*/
 	friend std::ostream& operator<< <T>(std::ostream &o, Node<T> const &n);
 };
 
+/* Construtor padrão - valor recebe=<vazio> e proximo=nullptr */
 template <typename T>
 Node<T>::Node() : valor(), proximo(nullptr) {}
 
+/* Construtor padrão - valor recebe=_valor e proximo=nullptr */
 template <typename T>
 Node<T>::Node(T _valor) : valor(_valor), proximo(nullptr) {}
 
+/* Destrutor - Na remoção é exibido o valor que está sendo removido  */
 template <typename T>
 Node<T>::~Node() {
 	cout << "Node(" << valor << ") removido." << endl;
 }
 
+/* Construtor padrão - valor recebe=_valor e proximo=nullptr */
 template <typename T>
 Node<T>::Node(T _valor, shared_ptr<Node<T>> nextPtr) : valor(_valor), proximo(nextPtr) {}
 
@@ -79,32 +132,92 @@ template <typename T> // Definicao antecipada do template para o operador de ins
 std::ostream& operator<<( std::ostream&, ListaLigada<T> const & );
 // --
 
+/**
+* @brief Implementacao da classe ListaLigada
+* @detail Define um template de lista
+*/
 template <typename T>
 class ListaLigada {
 protected:
-	shared_ptr<Node<T>> cabeca;
-	shared_ptr<Node<T>> cauda;
-	int tamanho;
-public:
-	ListaLigada();
-	~ListaLigada();
+	shared_ptr<Node<T>> cabeca; /**< define a sentinela cabeca que aponta para o inicio da lista*/
+	shared_ptr<Node<T>> cauda; /**< define a sentinela cauda que aponta para o fim da lista */
+	int tamanho; /**< define o tamanho da lista */
+
+	/**
+	* @brief Método que insere valor no inicio da lista
+	* @param T - recebe o valor para o novo nó
+	*/
 	bool InsereNoInicio(T _valor);
+
+	/**
+	* @brief Método que insere valor no final da lista
+	* @param T - recebe o valor para o novo nó
+	* @return Retorna um valor boleano
+	*/
 	bool InsereNoFinal(T _valor);
+
+	/**
+	* @brief Método que insere valor em um valor qualquer
+	* @param int - recebe a posição da lista
+	* @param T - recebe o valor para o novo nó
+	* @return Retorna um valor boleano
+	*/
 	bool InsereNaPosicao(int pos, T _valor);
-	bool RemoveNoInicio();
+	
+	/**
+	* @brief Método que remove valor no final da lista
+	* @return Retorna um valor boleano
+	*/
 	bool RemoveNoFinal();
+
+	/**
+	* @brief Método que remove valor em uma posição qualquer
+	* @param int - Recebe a posição a qual deseja remover
+	* @return Retorna um valor boleano
+	*/
 	bool RemoveNaPosicao(int pos);
 
+public:
+	/**
+	* @brief Método construtor padrão de ListaLigado
+	*/
+	ListaLigada();
+
+	/**
+	* @brief Método destrutor de ListaLigado
+	*/
+	~ListaLigada();
+	
+	/**
+	* @brief Método que remove valor no inicio da lista
+	* @return Retorna um valor boleano
+	*/
+	bool RemoveNoInicio();
+
+	/**
+	* @brief Método que exibe tamanho da lista
+	* @return Retorna o tamanho da lista
+	*/
 	int size();
 
+	/**
+	* @brief Sobrecarga do operador de inserção.
+	* @detail imprime na saída padrão as informações da lista ligada
+	* @param ostream &o operador de inserção
+	* @param ListaLigada<T> l uma instância de ListaLigada
+	* @return retorna a instância do operador de inserção
+	*/
 	friend std::ostream& operator<< <T>( std::ostream&, ListaLigada<T> const &l);
 };
 
+/* Inicializa atibutos da lista ligada com nullptr para cabeca e cauda e tamanho=0 */
 template <typename T>
 ListaLigada<T>::ListaLigada(): cabeca(nullptr), cauda(nullptr), tamanho(0) {}
 
 template <typename T>
 ListaLigada<T>::~ListaLigada() {
+	/* Percorre a lista a partir das posições de memoria de seus nós 
+	enquanto cabeca != cauda atribuindo o valor da próxima posição a cabeca*/
 	while (cabeca != this->cauda)
 		cabeca = cabeca->getNext();
 }
@@ -112,30 +225,48 @@ ListaLigada<T>::~ListaLigada() {
 template <typename T>
 bool ListaLigada<T>::InsereNoInicio(T _valor) {
 	auto novo = make_shared<Node<T>>(_valor);
+	// Verica se o ponteiro foi definido na memória
 	if (!novo) return false;
 
+	// novo aponta para a posicao definida pela cabeca
 	novo->setNext(this->cabeca);
+	// cabeca aponta para o novo nó
 	this->cabeca = novo;
+	// o tamanho da lista é incrementado em 1
 	this->tamanho++;
+
 	return true;
 }
 
 template <typename T>
 bool ListaLigada<T>::InsereNoFinal(T _valor) {
+	// Verifica se a lista é vazia
 	if (this->cabeca == nullptr) {
+		/* Chama função InsereNoInicio passando como parâmetro _valor
+		a fim de definir o primeiro valor da lista */
 		return InsereNoInicio(_valor);
 	} else {
+		/* guarda a posição de memória do primeiro nó da lista
+		definida na cabeca */
 		auto atual = this->cabeca;
+		/* Percorre a lista a partir das posições de memória 
+		até encontrar a posição apontada pela cauda */
 		while (atual->getNext() != this->cauda)
 			atual = atual->getNext();
 		
+		// Define um novo nó
 		auto novo = make_shared<Node<T>>(_valor);
+		// Verica se o ponteiro foi definido na memória
 		if (!novo) return false;
 
+		// Última posição da lista aponta para a posição de memória do novo nó
 		atual->setNext(novo);
+		// novo aponta para o valor definido em cauda (nullptr)
 		novo->setNext(this->cauda);
+		// Tamanho da lista é incrementado em 1
 		this->tamanho++;
 	}
+	
 	return true;
 }
 

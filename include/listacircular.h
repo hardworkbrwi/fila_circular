@@ -9,10 +9,13 @@ std::ostream& operator<<( std::ostream&, ListaCircular<T> const & );
 
 template <typename T>
 class ListaCircular : public ListaLigada<T>{
+    protected:
+        bool InsereNoInicio(T _valor);
+    
     public:
         ListaCircular();
         ~ListaCircular();
-        bool InsereNoInicio(T _valor);
+        
         bool InsereNoFinal(T _valor);
         //bool RemoveNoInicio();
         //bool RemoveNoFinal();
@@ -60,6 +63,7 @@ bool ListaCircular<T>::InsereNoFinal(T valor){
 
     return true;
 }
+
 
 template <typename T>
 std::ostream& operator<< ( std::ostream& o, ListaCircular<T> const &l ) {
