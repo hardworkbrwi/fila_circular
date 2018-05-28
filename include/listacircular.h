@@ -9,6 +9,8 @@
 #ifndef LISTACIRCULAR_H
 #define LISTACIRCULAR_H
 
+#include <memory>
+
 #include "lista.h"
 
 /* Para permitir sobrecarregar o operador de insercao
